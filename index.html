@@ -234,6 +234,159 @@
             padding: 2rem;
         }
 
+        /* Settings Button */
+        .settings-btn {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            background: #000;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 1001;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .settings-btn:hover {
+            transform: scale(1.1);
+            background: #333;
+        }
+
+        /* Settings Modal */
+        .settings-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1002;
+        }
+
+        .settings-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .settings-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .settings-header h2 {
+            margin: 0;
+            color: #000;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .theme-option {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            border: 2px solid #eee;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .theme-option:hover {
+            border-color: #000;
+        }
+
+        .theme-option.selected {
+            border-color: #000;
+            background: #f9f9f9;
+        }
+
+        .theme-option h3 {
+            margin: 0 0 0.5rem 0;
+            color: #000;
+        }
+
+        .theme-option p {
+            margin: 0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .gradient-picker {
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .gradient-picker.show {
+            display: block;
+        }
+
+        .color-inputs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .color-input {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .color-input label {
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+            color: #666;
+        }
+
+        .color-input input[type="color"] {
+            width: 50px;
+            height: 50px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        /* Fun Mode Styles */
+        body.fun-mode {
+            background: linear-gradient(45deg, var(--gradient-color1, #ff6b6b), var(--gradient-color2, #4ecdc4));
+            min-height: 100vh;
+        }
+
+        body.fun-mode .hero {
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3));
+        }
+
+        body.fun-mode .service-card,
+        body.fun-mode .contact-card,
+        body.fun-mode .contact-form {
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(10px);
+        }
+
+        body.fun-mode .portfolio-item {
+            background: rgba(255,255,255,0.8);
+            backdrop-filter: blur(10px);
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .nav-links {
@@ -247,6 +400,14 @@
             .section-title {
                 font-size: 2rem;
             }
+
+            .settings-btn {
+                bottom: 1rem;
+                left: 1rem;
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
         }
     </style>
 </head>
@@ -256,7 +417,6 @@
         <div class="nav-container">
             <div class="logo">
                 <img src="fawcettbuilds.svg" alt="Fawcett Builds Logo">
-                <span class="logo-text">Fawcett Builds</span>
             </div>
             <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
@@ -365,6 +525,41 @@
         <p>&copy; 2024 Fawcett Builds. All rights reserved.</p>
     </footer>
 
+    <!-- Settings Button -->
+    <button class="settings-btn" onclick="openSettings()">⚙️</button>
+
+    <!-- Settings Modal -->
+    <div class="settings-modal" id="settingsModal">
+        <div class="settings-content">
+            <div class="settings-header">
+                <h2>Theme Settings</h2>
+                <button class="close-btn" onclick="closeSettings()">×</button>
+            </div>
+            
+            <div class="theme-option selected" onclick="selectTheme('default')">
+                <h3>Default Theme</h3>
+                <p>Clean black and white design</p>
+            </div>
+            
+            <div class="theme-option" onclick="selectTheme('fun')">
+                <h3>Fun Mode</h3>
+                <p>Vibrant gradient background with glass effects</p>
+                <div class="gradient-picker" id="gradientPicker">
+                    <div class="color-inputs">
+                        <div class="color-input">
+                            <label>Color 1</label>
+                            <input type="color" id="color1" value="#ff6b6b" onchange="updateGradient()">
+                        </div>
+                        <div class="color-input">
+                            <label>Color 2</label>
+                            <input type="color" id="color2" value="#4ecdc4" onchange="updateGradient()">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -374,6 +569,75 @@
                     behavior: 'smooth'
                 });
             });
+        });
+
+        // Settings functionality
+        function openSettings() {
+            document.getElementById('settingsModal').style.display = 'block';
+        }
+
+        function closeSettings() {
+            document.getElementById('settingsModal').style.display = 'none';
+        }
+
+        function selectTheme(theme) {
+            // Remove all theme classes
+            document.body.classList.remove('fun-mode');
+            
+            // Remove selected class from all options
+            document.querySelectorAll('.theme-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked option
+            event.currentTarget.classList.add('selected');
+            
+            if (theme === 'fun') {
+                document.body.classList.add('fun-mode');
+                document.getElementById('gradientPicker').classList.add('show');
+                updateGradient();
+            } else {
+                document.getElementById('gradientPicker').classList.remove('show');
+            }
+            
+            // Save theme preference
+            localStorage.setItem('selectedTheme', theme);
+        }
+
+        function updateGradient() {
+            const color1 = document.getElementById('color1').value;
+            const color2 = document.getElementById('color2').value;
+            
+            document.documentElement.style.setProperty('--gradient-color1', color1);
+            document.documentElement.style.setProperty('--gradient-color2', color2);
+            
+            // Save gradient colors
+            localStorage.setItem('gradientColor1', color1);
+            localStorage.setItem('gradientColor2', color2);
+        }
+
+        // Load saved theme on page load
+        window.addEventListener('load', function() {
+            const savedTheme = localStorage.getItem('selectedTheme');
+            const savedColor1 = localStorage.getItem('gradientColor1') || '#ff6b6b';
+            const savedColor2 = localStorage.getItem('gradientColor2') || '#4ecdc4';
+            
+            if (savedTheme === 'fun') {
+                document.body.classList.add('fun-mode');
+                document.getElementById('color1').value = savedColor1;
+                document.getElementById('color2').value = savedColor2;
+                document.getElementById('gradientPicker').classList.add('show');
+                document.querySelector('.theme-option:nth-child(2)').classList.add('selected');
+                document.querySelector('.theme-option:nth-child(1)').classList.remove('selected');
+                updateGradient();
+            }
+        });
+
+        // Close modal when clicking outside
+        document.getElementById('settingsModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeSettings();
+            }
         });
     </script>
 </body>
