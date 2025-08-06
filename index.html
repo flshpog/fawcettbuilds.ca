@@ -464,9 +464,13 @@
             height: 70px;
             cursor: pointer;
             z-index: 1001;
-            transition: all 0.3s ease;
+            transition: all 0.5s ease;
             box-shadow: 0 8px 25px rgba(0,0,0,0.3);
             backdrop-filter: blur(10px);
+        }
+
+        .settings-btn.cookie-active {
+            bottom: 8rem;
         }
 
         .settings-btn:hover {
@@ -1109,12 +1113,19 @@
         // Cookie consent functionality
         function showCookieBanner() {
             const banner = document.getElementById('cookieBanner');
+            const settingsBtn = document.querySelector('.settings-btn');
             banner.classList.add('show');
+            settingsBtn.classList.add('cookie-active');
         }
 
         function hideCookieBanner() {
             const banner = document.getElementById('cookieBanner');
+            const settingsBtn = document.querySelector('.settings-btn');
             banner.classList.remove('show');
+            // Animate settings button back to original position
+            setTimeout(() => {
+                settingsBtn.classList.remove('cookie-active');
+            }, 500); // Wait for banner animation to complete
         }
 
         function acceptCookies() {
