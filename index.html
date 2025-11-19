@@ -26,6 +26,42 @@
             line-height: 1.6;
             color: #333;
             overflow-x: hidden;
+            background: linear-gradient(to bottom, #ffffff 0%, #f8f9fa 50%, #ffffff 100%);
+            position: relative;
+        }
+
+        /* Floating decorative elements */
+        body::before,
+        body::after {
+            content: '';
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        body::before {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(0,0,0,0.03) 0%, transparent 70%);
+            top: -200px;
+            right: -200px;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        body::after {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(0,0,0,0.02) 0%, transparent 70%);
+            bottom: -150px;
+            left: -150px;
+            animation: float 25s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(50px, -50px) rotate(120deg); }
+            66% { transform: translate(-30px, 30px) rotate(240deg); }
         }
 
         /* Navigation */
@@ -115,8 +151,13 @@
 
         /* Hero Section */
         .hero {
-            background: linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.6) 100%), 
-                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse"><path d="M 50 0 L 0 0 0 50" fill="none" stroke="%23ffffff" stroke-width="1" opacity="0.1"/></pattern></defs><rect width="1200" height="800" fill="%23f8f9fa"/><rect width="1200" height="800" fill="url(%23grid)"/></svg>');
+            background:
+                linear-gradient(135deg, rgba(0,0,0,0.85) 0%, rgba(26,26,26,0.7) 100%),
+                radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 50%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse"><path d="M 50 0 L 0 0 0 50" fill="none" stroke="%23ffffff" stroke-width="1" opacity="0.1"/></pattern></defs><rect width="1200" height="800" fill="%23f8f9fa"/><rect width="1200" height="800" fill="url(%23grid)"/></svg>');
+            background-size: cover, 200% 200%, 200% 200%, cover;
+            animation: gradientMove 15s ease infinite;
             height: 100vh;
             display: flex;
             align-items: center;
@@ -125,6 +166,11 @@
             color: white;
             position: relative;
             overflow: hidden;
+        }
+
+        @keyframes gradientMove {
+            0%, 100% { background-position: 0% 0%, 0% 50%, 0% 50%, 0% 0%; }
+            50% { background-position: 0% 0%, 100% 50%, 100% 50%, 0% 0%; }
         }
 
         .hero::before {
@@ -165,18 +211,41 @@
             font-size: 4.5rem;
             margin-bottom: 1rem;
             font-weight: 700;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
             letter-spacing: 3px;
             text-transform: uppercase;
+            color: #ffffff;
+            text-shadow:
+                2px 2px 8px rgba(0,0,0,0.6),
+                4px 4px 16px rgba(0,0,0,0.4),
+                0 0 30px rgba(255,255,255,0.2);
+            animation: titleGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% {
+                text-shadow:
+                    2px 2px 8px rgba(0,0,0,0.6),
+                    4px 4px 16px rgba(0,0,0,0.4),
+                    0 0 30px rgba(255,255,255,0.2);
+            }
+            50% {
+                text-shadow:
+                    2px 2px 8px rgba(0,0,0,0.6),
+                    4px 4px 16px rgba(0,0,0,0.4),
+                    0 0 40px rgba(255,255,255,0.4),
+                    0 0 60px rgba(255,255,255,0.2);
+            }
         }
 
         .hero-content p {
             font-size: 1.3rem;
             margin-bottom: 2rem;
-            opacity: 0.9;
+            opacity: 0.95;
             max-width: 600px;
             margin-left: auto;
             margin-right: auto;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            animation: fadeInUp 1s ease-out 0.3s both;
         }
 
         .cta-button {
@@ -192,9 +261,22 @@
             letter-spacing: 1px;
             transition: all 0.3s ease;
             display: inline-block;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2), 0 0 0 0 rgba(255,255,255,0.5);
             position: relative;
             overflow: hidden;
+            animation: pulse 2s infinite, fadeInUp 1s ease-out 0.6s both;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 8px 25px rgba(0,0,0,0.2), 0 0 0 0 rgba(255,255,255,0.7);
+            }
+            50% {
+                box-shadow: 0 8px 25px rgba(0,0,0,0.2), 0 0 0 15px rgba(255,255,255,0);
+            }
+            100% {
+                box-shadow: 0 8px 25px rgba(0,0,0,0.2), 0 0 0 0 rgba(255,255,255,0);
+            }
         }
 
         .cta-button::before {
@@ -223,6 +305,38 @@
             position: relative;
         }
 
+        section#services,
+        section#contact {
+            background:
+                radial-gradient(circle at 10% 20%, rgba(0,0,0,0.01) 0%, transparent 50%),
+                radial-gradient(circle at 90% 80%, rgba(0,0,0,0.01) 0%, transparent 50%);
+        }
+
+        section#portfolio {
+            background: #fafbfc;
+            position: relative;
+        }
+
+        section#portfolio::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(0,0,0,0.1), transparent);
+        }
+
+        section#portfolio::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(0,0,0,0.1), transparent);
+        }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -248,8 +362,27 @@
             transform: translateX(-50%);
             width: 80px;
             height: 4px;
-            background: linear-gradient(90deg, #000, #333);
+            background: linear-gradient(90deg, #000, #333, #000);
+            background-size: 200% 100%;
             border-radius: 2px;
+            animation: shimmerBar 3s linear infinite;
+        }
+
+        .section-title::before {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, rgba(0,0,0,0.1), transparent);
+            border-radius: 2px;
+            transition: width 0.6s ease;
+        }
+
+        .visible .section-title::before {
+            width: 200px;
         }
 
         /* Services */
@@ -263,9 +396,9 @@
             background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
             padding: 3rem 2rem;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
             text-align: center;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
             border: 1px solid rgba(0,0,0,0.05);
@@ -278,12 +411,38 @@
             left: 0;
             right: 0;
             height: 4px;
-            background: linear-gradient(90deg, #000, #333);
+            background: linear-gradient(90deg, #000, #444, #000);
+            background-size: 200% 100%;
+            animation: shimmerBar 3s linear infinite;
+        }
+
+        @keyframes shimmerBar {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .service-card::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0,0,0,0.03) 0%, transparent 70%);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+
+        .service-card:hover::after {
+            width: 500px;
+            height: 500px;
         }
 
         .service-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+            border-color: rgba(0,0,0,0.1);
         }
 
         .service-card h3 {
@@ -294,11 +453,21 @@
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover h3 {
+            transform: scale(1.05);
+            color: #111;
         }
 
         .service-card p {
             color: #666;
             line-height: 1.8;
+            position: relative;
+            z-index: 1;
         }
 
         /* Portfolio */
@@ -316,21 +485,47 @@
             justify-content: center;
             border-radius: 20px;
             color: #666;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
             border: 2px dashed #ddd;
+            cursor: pointer;
+        }
+
+        .portfolio-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .portfolio-item:hover::before {
+            left: 100%;
         }
 
         .portfolio-item:hover {
-            transform: scale(1.02);
+            transform: scale(1.05) rotate(1deg);
             border-color: #000;
             background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
         }
 
         .portfolio-item p {
             font-size: 1.1rem;
             opacity: 0.7;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s ease;
+        }
+
+        .portfolio-item:hover p {
+            opacity: 1;
+            transform: scale(1.1);
         }
 
         /* Contact */
@@ -345,15 +540,40 @@
             background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
             padding: 2.5rem 2rem;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
             text-align: center;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             border: 1px solid rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0,0,0,0.03) 0%, transparent 50%);
+            transform: rotate(0deg);
+            transition: transform 0.8s ease;
+        }
+
+        .contact-card:hover::before {
+            transform: rotate(180deg);
+        }
+
+        .contact-card h3,
+        .contact-card p {
+            position: relative;
+            z-index: 1;
         }
 
         .contact-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 45px rgba(0,0,0,0.15);
+            border-color: rgba(0,0,0,0.1);
         }
 
         .contact-card h3 {
@@ -396,13 +616,20 @@
             font-size: 1rem;
             transition: all 0.3s ease;
             background: #fff;
+            font-family: 'Roboto', sans-serif;
         }
 
         .form-group input:focus,
         .form-group textarea:focus {
             outline: none;
             border-color: #000;
-            box-shadow: 0 0 0 3px rgba(0,0,0,0.1);
+            box-shadow: 0 0 0 4px rgba(0,0,0,0.08);
+            transform: translateY(-2px);
+        }
+
+        .form-group input:hover,
+        .form-group textarea:hover {
+            border-color: #ced4da;
         }
 
         .form-group textarea {
@@ -412,7 +639,8 @@
 
         .submit-btn {
             font-family: 'Oswald', sans-serif;
-            background: linear-gradient(135deg, #000 0%, #333 100%);
+            background: linear-gradient(135deg, #000 0%, #1a1a1a 50%, #000 100%);
+            background-size: 200% auto;
             color: white;
             padding: 1.2rem 2.5rem;
             border: none;
@@ -422,14 +650,37 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
             width: 100%;
             box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
         }
 
         .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 35px rgba(0,0,0,0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.35);
+            background-position: 100% 0;
+        }
+
+        .submit-btn:active {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
         }
 
         /* Footer */
@@ -449,6 +700,15 @@
             right: 0;
             height: 1px;
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        }
+
+        footer p {
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        footer:hover p {
+            opacity: 1;
         }
 
         /* Settings Button */
@@ -941,12 +1201,12 @@
                 <button class="close-btn" onclick="closeSettings()">×</button>
             </div>
             
-            <div class="theme-option selected" onclick="selectTheme('default')">
+            <div class="theme-option selected" onclick="selectTheme('default', this)">
                 <h3>Default Theme</h3>
                 <p>Clean black and white design</p>
             </div>
-            
-            <div class="theme-option" onclick="selectTheme('fun')">
+
+            <div class="theme-option" onclick="selectTheme('fun', this)">
                 <h3>Fun Mode</h3>
                 <p>Vibrant gradient background with glass effects</p>
                 <div class="gradient-picker" id="gradientPicker">
@@ -1005,18 +1265,24 @@
             document.getElementById('settingsModal').style.display = 'none';
         }
 
-        function selectTheme(theme) {
+        function selectTheme(theme, element) {
             // Remove all theme classes
             document.body.classList.remove('fun-mode');
-            
+
             // Remove selected class from all options
             document.querySelectorAll('.theme-option').forEach(option => {
                 option.classList.remove('selected');
             });
-            
+
             // Add selected class to clicked option
-            event.currentTarget.classList.add('selected');
-            
+            if (element) {
+                element.classList.add('selected');
+            } else {
+                // Fallback for when called without element reference
+                const themeIndex = theme === 'fun' ? 1 : 0;
+                document.querySelectorAll('.theme-option')[themeIndex].classList.add('selected');
+            }
+
             if (theme === 'fun') {
                 document.body.classList.add('fun-mode');
                 document.getElementById('gradientPicker').classList.add('show');
@@ -1024,7 +1290,7 @@
             } else {
                 document.getElementById('gradientPicker').classList.remove('show');
             }
-            
+
             // Save theme preference
             localStorage.setItem('selectedTheme', theme);
         }
@@ -1093,17 +1359,6 @@
         document.querySelectorAll('section').forEach(section => {
             section.classList.add('fade-in');
             observer.observe(section);
-        });
-
-        // Add hover effects to service cards
-        document.querySelectorAll('.service-card').forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-10px) scale(1.02)';
-            });
-            
-            card.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0) scale(1)';
-            });
         });
 
         // Add parallax effect to hero section
